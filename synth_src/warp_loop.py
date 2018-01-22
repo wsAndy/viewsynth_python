@@ -3,23 +3,6 @@ import numpy as np
 import cv2
 
 
-class WarpClass:
-
-    def getSuperPixels(self):
-        pass
-
-    def filterDepthMap(self):
-        pass
-
-
-    def warp(self):
-        pass
-
-    def __init__(self,img):
-        self.img = img
-        pass
-
-
 class Image:
 
     def __init__(self,name):
@@ -50,8 +33,6 @@ class Image:
         self.targetR = pos[0]
         self.targetT = pos[1]
 
-
-
     def LoopCameraForWarp(self):
         pass
 
@@ -61,7 +42,6 @@ if __name__ == "__main__":
     # camName,camPara,p3d,visTable
     cam_name = cam_data[0]
     cam_para = cam_data[1]
-
 
     targetPos = [np.array([[ 0.93045067,  0.01840559, -0.36595473],
                            [ 0.07159506,  0.97035553,  0.23083646],
@@ -77,7 +57,6 @@ if __name__ == "__main__":
         img.setCameraPos(imgpos)
         img.setTargetPos(targetPos)
 
-        print(img.targetR)
-        print(img.targetT)
+
 
 
