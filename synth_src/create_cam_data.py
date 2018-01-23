@@ -58,7 +58,9 @@ line = fp.readline()
 M = fp.readline()
 M = int(M[0:-1])
 p3d = []
-visTable = set([str(x) for x in range(0, N, 1)])
+visSet = set([str(x) for x in range(0, N, 1)])
+visTable = np.zeros([M,N])
+p3d = []
 
 for index in range(0,M,1):
     line = fp.readline()
@@ -70,31 +72,34 @@ for index in range(0,M,1):
     p3 = float(p3)
     p4 = float(p4)
     p3d_ = np.array([ [p1], [p2], [p3] ])
+    if index == 0:
+        p3d = p3d_
     fp.readline()
     fp.readline()
     fp.readline()
     vis = (fp.readline())[0:-1].split(' ')
+    for vis_i in vis[0:-1]:
+        visTable[index][int(vis_i)] = 1
     vis = set(vis)
-    p3d.append(p3d_)
-    visTable = visTable - vis
+    if index >0:
+        p3d = np.concatenate([p3d,p3d_],axis=1)
+    visSet = visSet - vis
 
-visTable = set([str(x) for x in range(0, N, 1)]) - visTable
-visTable = sorted([int(x) for x in visTable])
+visSet = set([str(x) for x in range(0, N, 1)]) - visSet
+visSet = sorted([int(x) for x in visSet])
 
 camPara_ = []
 camName_ = []
-p3d_ = []
-for x in visTable:
+for x in visSet: # 15
     camName_.append([camName[x]])
     camPara_.append(camPara[x])
-    p3d_.append(p3d[x])
-#
+
 
 # print(p3d_.__len__())
-# print(visTable.__len__())
+# print(visSet.__len__())
 # print(camPara_.__len__())
 # print(camName_.__len__())
 
-cam_data = np.array([camName_, camPara_, p3d_, visTable])
+cam_data = np.array([camName_, camPara_, p3d, visSet, visTable])
 
 np.save('./cam_data.npy',cam_data)

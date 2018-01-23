@@ -39,7 +39,7 @@ class Image:
 if __name__ == "__main__":
     use_real_cam_number = 3
     cam_data = np.load('./cam_data.npy')
-    # camName,camPara,p3d,visTable
+    # camName,camPara,p3d,visSet
     cam_name = cam_data[0]
     cam_para = cam_data[1]
 
