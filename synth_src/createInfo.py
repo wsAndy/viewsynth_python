@@ -41,8 +41,8 @@ def saveSpflag(slic_label_name, dmap_name, saveindex):
         dep_point_count = 0
         for dep_ind in range(0,sp_ind[0].shape[0]):
             # pixel( sp_ind[dep] )
-            sp_x = round(sp_ind[0][dep_ind])
-            sp_y = round(sp_ind[1][dep_ind])
+            sp_x = int(round(sp_ind[0][dep_ind]))
+            sp_y = int(round(sp_ind[1][dep_ind]))
             # judge if enough depth point occurs in this region
             if abs(dmap[sp_x, sp_y]) > 0.1:
                 dep_point_count = dep_point_count + 1
