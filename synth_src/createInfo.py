@@ -81,7 +81,7 @@ def saveDepth(p3d, pos, rows, cols):
     proj_point = np.concatenate([proj_x,proj_y],axis=0)
     proj_point_dep = P_rot[2,:]
     proj_point_dep = proj_point_dep.reshape(1,-1)
-    depthArray = []
+    # depthArray = []
     # 创建一个image大小的矩阵
     mapD = np.zeros([rows, cols])
     for x in range(0,proj_point_dep.shape[1]):
@@ -89,12 +89,15 @@ def saveDepth(p3d, pos, rows, cols):
         p_y = int(round(proj_point[1][x]))
         if p_x < 0 or p_x >= cols or p_y < 0 or p_y >= rows:
             continue
-        tmp = [p_x,p_y,proj_point_dep[0][x]]
-        mapD[p_x,p_y] = proj_point_dep[0][x]
-        depthArray.append(tmp)
-    depthArray = np.array(depthArray) # size x 3
+        # tmp = [p_x,p_y,proj_point_dep[0][x]]
+        # print('x='+str(x) )
+        # print('proj_point_dep[0] shape={0}'.format(proj_point_dep[0].shape))
+        # print('p_x = {0}, p_y = {1}, mapD shape={2}'.format(p_x,p_y,mapD.shape))
+        mapD[p_y,p_x] = proj_point_dep[0][x]
+        # depthArray.append(tmp)
+    # depthArray = np.array(depthArray,np.dtype=float16) # size x 3
     # return depthArray
-    print('leave')
+    # print('leave')
     return mapD
 
 
@@ -154,11 +157,11 @@ if __name__ == '__main__':
     # for i in range(0, visSet.__len__()):
     #     createDepth(visSet[i])
 
-    # pool = multiprocessing.Pool(processes=8)
-    # for i in range(0, cam_name.__len__()):
-    #     pool.apply_async(createSpflag, ('./slic/seg'+str(i)+'.npy', './depth/dep'+str(i)+'.npy', i,))
-    # pool.close()
-    # pool.join()
+    pool = multiprocessing.Pool(processes=4)
+    for i in range(0, cam_name.__len__()):
+        pool.apply_async(createSpflag, ('./slic/seg'+str(i)+'.npy', './depth/dep'+str(i)+'.npy', i,))
+    pool.close()
+    pool.join()
 
     # for i in range(0, cam_name.__len__()):
     #     createSpflag('./slic/seg'+str(i)+'.npy', './depth/dep'+str(i)+'.npy', i)
