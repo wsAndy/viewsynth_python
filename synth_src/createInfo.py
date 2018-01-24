@@ -124,30 +124,24 @@ def createDepth(i):
     # onecam_p3d: cam id=i, see the p3d
     # depthArray = saveDepth(onecam_p3d, pos, rows, cols)
     mapD = saveDepth(onecam_p3d, pos, rows, cols)
-    print(mapD.shape)
-    print('---{0}'.format(i))
-    np.save('./depth/dep'+str(i)+'.npy',mapD)
-
+    np.save('./depth/dep'+str(visSet.index(i))+'.npy',mapD)
 
 
 def createSpflag(slic_label_name, dmap_name, i):
-    saveSpflag(slic_label_name, dmap_name, i)
-    print('==')
-
-
+	print('spflag i='+str(i))
+	saveSpflag(slic_label_name,dmap_name,i)
+	
 
 if __name__ == '__main__':
 
-    USE_POOL = False
+    USE_POOL = True
 
     if USE_POOL:
-        pool = multiprocessing.Pool(processes=8)
-        for i in range(0,cam_name.shape[0]):
+        pool = multiprocessing.Pool(processes=4)
+        for i in range(8,cam_name.__len__()):
             pool.apply_async(saveSlic, (i,))
         pool.close()
         pool.join()
-
-
 
     pool = multiprocessing.Pool(processes=4)
     for i in range(0, visSet.__len__()):
@@ -163,7 +157,7 @@ if __name__ == '__main__':
     pool.close()
     pool.join()
 
-    # for i in range(0, cam_name.__len__()):
+    # for i in range(8, cam_name.__len__()):
     #     createSpflag('./slic/seg'+str(i)+'.npy', './depth/dep'+str(i)+'.npy', i)
 
     print('Done.')
